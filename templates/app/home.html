@@ -1,0 +1,47 @@
+{# your_app_name/templates/app/home.html #}
+
+{% extends "base.html" %} {# Убедитесь, что здесь указан правильный базовый шаблон #}
+{% load static %}
+
+{% block title %}Home - Community Blog{% endblock %}
+
+{% block content %} {# <-- ВОТ ЗДЕСЬ БУДУТ ВЫВОДИТЬСЯ ПОСТЫ #}
+<div class="homepage-hero">
+    <div class="container">
+        <h1>{{ welcome_message }}</h1>
+        <p>Делитесь своими мыслями, читайте интересные статьи и присоединяйтесь к нашему сообществу.</p>
+        <a href="{% url 'post_create_view' %}" class="btn btn-primary">Создать новый пост</a>
+    </div>
+</div>
+
+<main class="post-grid-section">
+    <div class="container">
+        <h2 class="section-title">Последние посты</h2>
+        {% if posts %}
+            <div class="post-grid">
+                {% for post in posts %}
+                    <article class="post-card">
+                        <div class="post-header">
+                            {# Убедитесь, что у вашего пользователя есть поле profile_picture #}
+                            {% if post.author.profile_picture %}
+                            <img src="{{ post.author.profile_picture.url }}" alt="{{ post.author.username }}" class="author-avatar">
+                            {% else %}
+                            <img src="{% static 'img/default_avatar.png' %}" alt="Default Avatar" class="author-avatar"> {# Если нет, используйте аватар по умолчанию #}
+                            {% endif %}
+                            <div class="author-info">
+                                <span class="author-name">{{ post.author.username }}</span>
+                                <time datetime="{{ post.created_at|date:'c' }}" class="post-date">{{ post.created_at|date:"d M Y" }}</time>
+                            </div>
+                        </div>
+                        <h2 class="post-title"><a href="#">{{ post.title }}</a></h2> {# <-- ЗАГЛУШКА ЗДЕСЬ #}
+                        <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
+                        <a href="#">Читать далее &rarr;</a> {# <-- И ЗАГЛУШКА ЗДЕСЬ #}
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-posts-message">Пока нет постов. Будьте первым!</p>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% load crispy_forms_tags %} {# Если вы используете django-crispy-forms для красивых форм #}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/app/auth_forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h2 class="form-title">Регистрация</h2>
+
+    <p class="auth-message">Уже есть аккаунт? <a href="{% url 'account_login' %}">Войти</a>.</p>
+
+    <form class="auth-form" method="POST" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert error">
+                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+        {% endif %}
+        {{ form|crispy }} {# Или ручной рендеринг #}
+        <button type="submit" class="submit-btn">Зарегистрироваться</button>
+    </form>
+
+    <div class="social-login-separator">
+        <span>ИЛИ</span>
+    </div>
+
+    <div class="social-login-options">
+        <a href="{% provider_login_url 'google' %}" class="google-login-btn">
+            <img src="{% static 'img/google_icon.png' %}" alt="Google Icon" class="google-icon">
+            Зарегистрироваться с Google
+        </a>
+    </div>
+</section>
+{% endblock %}

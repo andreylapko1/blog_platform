@@ -1,0 +1,52 @@
+{% extends "base.html" %} {# Наследуемся от вашего общего базового шаблона #}
+{% load static %}
+{% load socialaccount %} {# Для входа через соцсети, например Google #}
+{% load crispy_forms_tags %} {# Если вы используете django-crispy-forms для красивых форм #}
+
+{% block title %}Sign In{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/app/auth_forms.css' %}"> {# Специальные стили для форм аутентификации #}
+{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h2 class="form-title">Sign In</h2>
+
+    <p class="auth-message">Если у вас еще нет аккаунта, пожалуйста, <a href="{% url 'account_signup' %}">зарегистрируйтесь</a>.</p>
+
+    <form class="auth-form" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert error">
+                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+        {% endif %}
+        {# Используйте crispy_forms для автоматического красивого рендеринга формы #}
+        {# Если не используете crispy_forms, придется рендерить поля вручную, как в post_create.html #}
+        {{ form|crispy }} 
+
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <div class="form-group-inline">
+            <a href="{% url 'account_reset_password' %}" class="forgot-password-link">Забыли пароль?</a>
+        </div>
+
+        <button type="submit" class="submit-btn">Войти</button>
+    </form>
+
+    <div class="social-login-separator">
+        <span>ИЛИ</span>
+    </div>
+
+    <div class="social-login-options">
+        <a href="{% provider_login_url 'google' %}" class="google-login-btn">
+            <img src="{% static 'img/google_icon.png' %}" alt="Google Icon" class="google-icon">
+            Войти с Google
+        </a>
+        {# Добавьте другие провайдеры соцсетей здесь #}
+    </div>
+</section>
+{% endblock %}

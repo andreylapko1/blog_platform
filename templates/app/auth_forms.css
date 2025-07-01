@@ -1,0 +1,249 @@
+/* static/css/app/auth_forms.css */
+
+/* Убедитесь, что base.css загружен первым, чтобы получить переменные и общие стили */
+
+.content-main {
+    padding: 50px 0;
+    flex: 1; /* Обеспечивает работу "липкого" футера */
+}
+
+.auth-card {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: 0 8px 25px var(--shadow-light);
+    padding: 40px;
+    max-width: 500px; /* Ограничиваем ширину для лучшей читаемости */
+    margin: 0 auto; /* Центрируем карточку формы */
+    text-align: center; /* Центрируем содержимое внутри карточки */
+}
+
+.form-title {
+    font-family: var(--font-heading);
+    font-size: 2.8em;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.auth-message {
+    font-size: 1.05em;
+    color: var(--light-text-color);
+    margin-bottom: 30px;
+}
+
+.auth-message a {
+    font-weight: 600;
+}
+
+/* Стили для полей формы (если используете ручной рендеринг или crispy-forms) */
+.auth-form .form-group { /* Если используете ручной рендеринг */
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.auth-form label {
+    display: block;
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: calc(100% - 24px); /* Учитываем padding */
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 1em;
+    color: var(--text-color);
+    background-color: var(--background-light);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-form input[type="text"]:focus,
+.auth-form input[type="email"]:focus,
+.auth-form input[type="password"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(123, 104, 238, 0.2);
+    outline: none;
+}
+
+/* Специфичные стили для crispy-forms (если используете) */
+.auth-form .form-control {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 1em;
+    color: var(--text-color);
+    background-color: var(--background-light);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.auth-form .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(123, 104, 238, 0.2);
+    outline: none;
+}
+
+.auth-form .helptext {
+    font-size: 0.85em;
+    color: var(--light-text-color);
+    margin-top: 5px;
+    text-align: left;
+}
+.auth-form ul.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: -10px 0 15px 0;
+    color: #E74C3C; /* Красный для ошибок */
+    font-size: 0.9em;
+    text-align: left;
+}
+.auth-form ul.errorlist li {
+    margin-bottom: 5px;
+}
+
+
+.form-group-inline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -10px; /* Корректировка отступа */
+    margin-bottom: 25px;
+    font-size: 0.95em;
+}
+
+.forgot-password-link {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+.forgot-password-link:hover {
+    color: #6A5ACD;
+}
+
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: var(--card-background);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 30px;
+}
+
+.submit-btn:hover {
+    background-color: #6A5ACD;
+    transform: translateY(-2px);
+}
+
+.social-login-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 30px 0;
+    color: var(--light-text-color);
+}
+
+.social-login-separator::before,
+.social-login-separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.social-login-separator:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.social-login-separator:not(:empty)::after {
+    margin-left: .25em;
+}
+
+.social-login-options {
+    margin-top: 20px;
+}
+
+.google-login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #DB4437; /* Google red */
+    color: white;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.google-login-btn:hover {
+    background-color: #C1352A;
+    transform: translateY(-2px);
+    color: white; /* Убедитесь, что цвет текста остается белым при наведении */
+}
+
+.google-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* Адаптивные настройки */
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 30px;
+        margin: 0 15px;
+    }
+
+    .form-title {
+        font-size: 2.2em;
+    }
+
+    .auth-form label, .auth-message {
+        font-size: 1em;
+    }
+
+    .auth-form input[type="text"],
+    .auth-form input[type="email"],
+    .auth-form input[type="password"],
+    .auth-form .form-control {
+        padding: 10px;
+    }
+
+    .submit-btn, .google-login-btn {
+        font-size: 1.1em;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 20px;
+    }
+
+    .form-title {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .auth-message {
+        margin-bottom: 20px;
+    }
+
+    .social-login-separator {
+        margin: 20px 0;
+    }
+}
