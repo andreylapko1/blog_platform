@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile {{ user.username }}</title>
+    <link rel="stylesheet" href="{% static 'css/app/user_page.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="site-wrapper">
+        <header class="main-header">
+            <div class="container">
+                <h1>Community Blog</h1>
+                <nav>
+                    <a href="{% url 'home_view' %}">Home</a>
+                    <a href="{% url 'post_create_view' %}">Create Post</a>
+                    <a href="{% url 'user_page_view' %}">Profile</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="user-profile-main">
+            <div class="container">
+                <section class="profile-card">
+                    <div class="profile-header">
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="profile-avatar">
+                        <div class="profile-info">
+                            <h2 class="profile-username">{{ user.username }}</h2>
+                            <p class="profile-email">{{ user.email }}</p>
+                            {% if user.is_authenticated and user == request.user %}
+                            <a href="#" class="edit-profile-btn">Edit Profile</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="profile-bio">
+                        <h3>About Me</h3>
+                        {% if user.bio %}
+                            <p>{{ user.bio }}</p>
+                        {% else %}
+                            <p class="no-bio-message">User has not added any information yet.</p>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <section class="user-posts-section">
+                    <h3>User Posts</h3>
+                    {% if user.posts.all %}
+                        <div class="post-grid">
+                            {% for post in user.posts.all %}
+                                <article class="post-card">
+                                    <div class="post-header">
+                                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="author-avatar">
+                                        <div class="author-info">
+                                            <span class="author-name">{{ user.username }}</span>
+                                            <time datetime="{{ post.created_at|date:'c' }}" class="post-date">{{ post.created_at|date:"d M Y" }}</time>
+                                        </div>
+                                    </div>
+                                    <h2 class="post-title"><a href="#">{{ post.title }}</a></h2>
+                                    <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
+                                    <a href="#" class="read-more">Read More &rarr;</a>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="no-posts-message">This user has no posts yet.</p>
+                    {% endif %}
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Community Blog. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
