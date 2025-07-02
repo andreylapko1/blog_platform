@@ -1,0 +1,17 @@
+{# yourproject/templates/allauth/layouts/base.html #}
+{% extends "base.html" %}
+{% load i18n %}
+{% load allauth %}
+
+
+{% block extra_head %}
+    {{ block.super }}
+{% endblock extra_head %}
+
+
+{% block content %}
+    {% element layout_wrapper %}
+        {% block allauth_content %}
+        {% endblock allauth_content %}
+    {% endelement %}
+{% endblock content %}

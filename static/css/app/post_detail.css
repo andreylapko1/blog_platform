@@ -1,0 +1,172 @@
+
+/* <link rel="stylesheet" href="{% static 'css/app/post_detail.css' %}"> */
+
+
+/* Post Detail Specific Styles */
+.post-detail-container {
+    padding: 40px 0;
+}
+
+.post-detail {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: 0 8px 25px var(--shadow-light);
+    padding: 35px 40px;
+}
+
+.post-detail-title {
+    font-family: var(--font-heading);
+    font-size: 2.8em;
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-align: center; /* Центрируем заголовок */
+}
+
+.post-meta {
+    display: flex;
+    justify-content: center; /* Центрируем автора и дату */
+    align-items: center;
+    gap: 25px; /* Расстояние между автором и датой */
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.post-meta .author-info {
+    /* Переиспользуем стили из post-card, но можем переопределить */
+    display: flex;
+    align-items: center;
+}
+
+.post-meta .author-avatar {
+    /* Переиспользуем стили из post-card */
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    border: 3px solid var(--primary-color); /* Изменен цвет рамки */
+}
+
+.post-meta .author-name {
+    /* Переиспользуем стили из post-card */
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.post-detail-date {
+    font-size: 0.95em;
+    color: var(--light-text-color);
+    font-style: italic;
+}
+
+.post-content {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: var(--text-color);
+    margin-bottom: 40px;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+}
+
+.post-content p {
+    margin-bottom: 1em;
+}
+
+.post-content ul,
+.post-content ol {
+    margin-bottom: 1em;
+    padding-left: 25px;
+}
+
+.post-content pre {
+    background-color: #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.post-content code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f0f0f0;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.post-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.back-to-posts {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-posts:hover {
+    background-color: #bce8f1;
+}
+
+/* Responsive adjustments for post detail */
+@media (max-width: 768px) {
+    .post-detail {
+        padding: 25px 25px;
+    }
+    .post-detail-title {
+        font-size: 2.2em;
+    }
+    .post-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .post-detail-date {
+        margin-top: 5px;
+    }
+    .post-content {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-detail-title {
+        font-size: 1.8em;
+    }
+    .post-detail {
+        padding: 20px;
+    }
+}
+#image {
+    max-width: 100%; /* Гарантирует, что изображение не выйдет за пределы контейнера */
+    height: auto;    /* Сохраняет пропорции изображения */
+    display: block;  /* Удаляет лишний отступ снизу, если изображение является строчным элементом */
+    margin: 30px auto; /* Центрирует изображение и добавляет отступы сверху/снизу */
+    border-radius: 10px; /* Скругляет углы, как у других карточек */
+    box-shadow: 0 8px 25px var(--shadow-light); /* Добавляет тень, как у карточек */
+    object-fit: cover; /* Если изображение будет обрезаться, оно заполнит доступное пространство */
+    /* border: 1px solid var(--border-color); Опционально: добавить тонкую рамку */
+}
+
+/* Адаптивность для изображений */
+@media (max-width: 768px) {
+    #image {
+        margin: 20px auto; /* Меньше отступов на мобильных */
+    }
+}
+
+@media (max-width: 480px) {
+    #image {
+        border-radius: 8px; /* Чуть меньше скругление на очень маленьких экранах */
+    }
+}

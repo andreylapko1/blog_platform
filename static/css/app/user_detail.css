@@ -1,0 +1,183 @@
+/* User Profile Form Specific Styles */
+
+.user-profile-container {
+    padding: 50px 0;
+    display: flex;
+    justify-content: center; /* Центрируем форму */
+    align-items: flex-start;
+}
+
+.profile-edit-section {
+    width: 100%;
+    max-width: 600px; /* Ширина формы */
+}
+
+.profile-card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    padding: 40px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.profile-edit-section h2 {
+    font-family: var(--font-heading);
+    font-size: 2em;
+    color: var(--primary-color);
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/* Стили для полей формы */
+.form-field-group {
+    margin-bottom: 20px;
+    text-align: left; /* Выравнивание текста и полей по левому краю */
+}
+
+.profile-edit-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-size: 0.95em;
+}
+
+.profile-edit-form input[type="text"],
+.profile-edit-form input[type="email"] {
+    width: calc(100% - 22px); /* Полная ширина с учетом паддинга и границы */
+    padding: 12px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1em;
+    color: var(--text-color);
+    background-color: var(--background-light);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Важно для корректной ширины */
+}
+
+.profile-edit-form input[type="text"]:focus,
+.profile-edit-form input[type="email"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(123, 104, 238, 0.2);
+    outline: none;
+}
+
+/* Стили для поля input[type="file"] */
+.profile-edit-form input[type="file"] {
+    width: 100%;
+    padding: 8px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--background-light);
+    color: var(--text-color);
+    font-size: 0.95em;
+    box-sizing: border-box;
+}
+
+.current-profile-pic {
+    font-size: 0.85em;
+    color: var(--light-text-color);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.current-profile-pic img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+/* Стили для ошибок формы */
+.form-errors {
+    background-color: #ffebeb; /* Светло-красный фон */
+    border: 1px solid #dc3545; /* Красная рамка */
+    color: #dc3545; /* Красный текст */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.form-errors ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding: 0;
+}
+
+.errorlist { /* Стилизация списка ошибок для отдельных полей */
+    color: #dc3545;
+    font-size: 0.85em;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+/* Стили для сообщений Django Messages */
+.messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.messages li {
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.messages .success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.messages .error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Кнопка сохранения в форме */
+.profile-edit-form .btn-primary {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px 0;
+}
+
+/* Адаптивность для формы */
+@media (max-width: 768px) {
+    .profile-card {
+        padding: 30px;
+        margin: 0 20px;
+    }
+    .profile-edit-form input[type="text"],
+    .profile-edit-form input[type="email"],
+    .profile-edit-form input[type="file"] {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-card {
+        padding: 25px;
+    }
+    .profile-edit-section h2 {
+        font-size: 1.8em;
+    }
+}

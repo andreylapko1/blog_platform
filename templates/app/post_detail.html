@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}{{ post.title }} - Community Blog{% endblock %}
+
+{% block content %}
+<div class="post-detail-container">
+    <article class="post-detail">
+        <h1 class="post-detail-title">{{ post.title }}</h1>
+        <link rel="stylesheet" href="{% static 'css/app/post_detail.css' %}">
+        <div class="post-meta">
+            <div class="author-info">
+                {% if post.author.profile.profile_image %}
+                <img src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.username }}" class="author-avatar">
+                {% else %}
+                <img src="{% static 'img/default_avatar.png' %}" alt="Default Avatar" class="author-avatar">
+                {% endif %}
+                <span class="author-name">{{ post.author.username }}</span>
+            </div>
+            <time datetime="{{ post.created_at|date:'c' }}" class="post-detail-date">{{ post.created_at|date:"d M Y, H:i" }}</time>
+        </div>
+        {% if post.image %}
+        <img src="{{ post.image.url}}" alt="{{ post.author.username }}" id="image">
+        {% endif %}
+        <div class="post-content">
+            {{ post.content|safe }}
+        </div>
+        <div class="post-actions">
+            <a href="{% url 'home_view' %}" class="back-to-posts">&larr; Вернуться к постам</a>
+        </div>
+    </article>
+</div>
+{% endblock %}

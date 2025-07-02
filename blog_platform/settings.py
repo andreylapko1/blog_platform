@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = 'django-insecure-95)^k^#uwevo*@irnj5)*9uk+(x)xhfcx80m=$_))k6zbsyf0)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -61,14 +61,32 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-LOGIN_REDIRECT_URL = '/app/'
-LOGOUT_REDIRECT_URL = '/app/user/'
-
+LOGIN_REDIRECT_URL = '/blogs/'
+LOGOUT_REDIRECT_URL = '/blogs/user/'
+ACCOUNT_LOGOUT_ON_GET = True
+# home
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'APP': {
+#             'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+#             'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
+#             'key': ''
+#         },
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'offline',
+#         }
+#     }
+# }
+# office
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
-            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
+            'client_id': '1051228230424-guj6sbfmad7ts75s4f490oddmc95goa2.apps.googleusercontent.com',
+            'secret': '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',
             'key': ''
         },
         'SCOPE': [
@@ -80,6 +98,10 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+
+
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 MIDDLEWARE = [
@@ -92,6 +114,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware'
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
+MEDIA_URL = '/media/'
 
 ROOT_URLCONF = 'blog_platform.urls'
 
@@ -122,15 +147,31 @@ WSGI_APPLICATION = 'blog_platform.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+# # home postgress
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('POSTGRES_DB'),
+#         'USER': os.getenv('POSTGRES_USER'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'PORT': os.getenv('POSTGRES_PORT'),
+#     }
+# }
+
+# office postgress
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'PORT': os.getenv('POSTGRES_PORT'),
+        'NAME': 'django_net_blog',
+        'USER': 'django_net_user',
+        'PASSWORD': 'django',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

@@ -1,0 +1,37 @@
+{% load static %}
+{% extends "socialaccount/base_entrance.html" %}
+{% load i18n %}
+{% load allauth %}
+
+{% block head_title %}
+    {% trans "Signup" %}
+{% endblock head_title %}
+
+
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/app/social_signup_styles.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+    {% element h1 %}
+        {% trans "Sign Up" %}
+    {% endelement %}
+    {% element p %}
+        {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}Вы собираетесь использовать свой аккаунт {{provider_name}} для входа на {{site_name}}. Последний шаг, пожалуйста, заполните следующую форму:{% endblocktrans %}
+    {% endelement %}
+    {% url 'socialaccount_signup' as action_url %}
+    {% element form form=form method="post" action=action_url %}
+        {% slot body %}
+            {% csrf_token %}
+            {% element fields form=form unlabeled=True %}
+            {% endelement %}
+            {{ redirect_field }}
+        {% endslot %}
+        {% slot actions %}
+            {% element button type="submit" %}
+                {% trans "Sign Up" %}
+            {% endelement %}
+        {% endslot %}
+    {% endelement %}
+{% endblock content %}

@@ -1,4 +1,3 @@
-{# your_app_name/templates/app/home.html #}
 
 {% extends "base.html" %} {# Убедитесь, что здесь указан правильный базовый шаблон #}
 {% load static %}
@@ -22,20 +21,23 @@
                 {% for post in posts %}
                     <article class="post-card">
                         <div class="post-header">
-                            {# Убедитесь, что у вашего пользователя есть поле profile_picture #}
-                            {% if post.author.profile_picture %}
-                            <img src="{{ post.author.profile_picture.url }}" alt="{{ post.author.username }}" class="author-avatar">
+                            {% if post.author.profile.profile_image %}
+                            <img src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.username }}" class="author-avatar">
                             {% else %}
-                            <img src="{% static 'img/default_avatar.png' %}" alt="Default Avatar" class="author-avatar"> {# Если нет, используйте аватар по умолчанию #}
+                            <img src="{% static 'static/img/google_icon.png' %}" alt="Default Avatar" class="author-avatar">
                             {% endif %}
                             <div class="author-info">
                                 <span class="author-name">{{ post.author.username }}</span>
                                 <time datetime="{{ post.created_at|date:'c' }}" class="post-date">{{ post.created_at|date:"d M Y" }}</time>
                             </div>
                         </div>
-                        <h2 class="post-title"><a href="#">{{ post.title }}</a></h2> {# <-- ЗАГЛУШКА ЗДЕСЬ #}
+                        <h2 class="post-title"><a href="#">{{ post.title }}</a></h2>
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="{{ post.author.username }}" class="author-avatar">
+                        {% else %}
+                        {% endif %}
                         <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
-                        <a href="#">Читать далее &rarr;</a> {# <-- И ЗАГЛУШКА ЗДЕСЬ #}
+                        <a href="{% url 'post_detail_view' post.id %}">Читать далее &rarr;</a>
                     </article>
                 {% endfor %}
             </div>

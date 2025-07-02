@@ -25,16 +25,19 @@
         <main class="user-profile-main">
             <div class="container">
                 <section class="profile-card">
-                    <div class="profile-header">
-                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="profile-avatar">
-                        <div class="profile-info">
-                            <h2 class="profile-username">{{ user.username }}</h2>
-                            <p class="profile-email">{{ user.email }}</p>
-                            {% if user.is_authenticated and user == request.user %}
-                            <a href="#" class="edit-profile-btn">Edit Profile</a>
-                            {% endif %}
-                        </div>
-                    </div>
+                {% if user.profile.profile_image %}
+                    <img src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}" class="author-avatar">
+                {% else %}
+                    <img src="{% static 'img/default_avatar.png' %}" alt="Default Avatar" class="author-avatar">
+                {% endif %}
+                <div class="profile-info">
+                    <h2 class="profile-username">{{ user.username }}</h2>
+                    <p class="profile-email">{{ user.email }}</p>
+                    {% if user.is_authenticated and user == request.user %}
+                    <a href="{%  url 'user_detail' %}" class="edit-profile-btn">Edit Profile</a>
+                    {% endif %}
+                </div>
+            </div>
                     <div class="profile-bio">
                         <h3>About Me</h3>
                         {% if user.bio %}
