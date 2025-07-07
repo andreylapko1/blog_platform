@@ -38,14 +38,47 @@
                     {% endif %}
                 </div>
             </div>
-                    <div class="profile-bio">
-                        <h3>About Me</h3>
-                        {% if user.bio %}
-                            <p>{{ user.bio }}</p>
-                        {% else %}
-                            <p class="no-bio-message">User has not added any information yet.</p>
-                        {% endif %}
-                    </div>
+                   <div class="profile-bio">
+    <h3>About Me</h3>
+    {% if user.userinformation %}
+        {# Check if the 'about_user' field specifically has content #}
+        {% if user.userinformation.about_user %}
+            <p>{{ user.userinformation.about_user }}</p>
+        {% else %}
+            <p class="no-bio-message">User has not added a description yet.</p>
+        {% endif %}
+
+        {# --- Additional Information --- #}
+        <h4>Contact & Details</h4>
+        <ul>
+            {% if user.userinformation.phone %}
+                <li><strong>Phone:</strong> {{ user.userinformation.phone }}</li>
+            {% endif %}
+            {% if user.userinformation.inst %}
+                <li><strong>Instagram:</strong> <a href="{{ user.userinformation.inst }}">{{ user.userinformation.inst }}</a></li>
+            {% endif %}
+            {% if user.userinformation.web_site %}
+                <li><strong>Website:</strong> <a href="{{ user.userinformation.web_site }}">{{ user.userinformation.web_site }}</a></li>
+            {% endif %}
+            {% if user.userinformation.geo %}
+                <li><strong>Location:</strong> {{ user.userinformation.geo }}</li>
+            {% endif %}
+            {% if user.userinformation.profession %}
+                {# Display the human-readable value for profession #}
+                <li><strong>Profession:</strong> {{ user.userinformation.get_profession_display }}</li>
+            {% endif %}
+            {% if user.userinformation.hobbies %}
+                <li><strong>Hobbies:</strong> {{ user.userinformation.hobbies }}</li>
+            {% endif %}
+            {% if user.userinformation.date_of_birth %}
+                <li><strong>Date of Birth:</strong> {{ user.userinformation.date_of_birth|date:"F d, Y" }}</li> {# Format the date #}
+            {% endif %}
+        </ul>
+
+    {% else %}
+        <p class="no-bio-message">User has not added any personal information yet.</p>
+    {% endif %}
+</div>
                 </section>
 
                 <section class="user-posts-section">

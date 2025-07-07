@@ -1,9 +1,11 @@
 import json
+from http.client import HTTPResponse
+
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
-from .models import Comment
+from .models import Comment, UserInformation
 from blog_platform import settings
 from .models import Post, Profile
 from .forms import UserUpdateProfileForm, PostCreateForm, CommentCreateForm, UserInformationForm
@@ -164,5 +166,9 @@ class UserDetailInformationView(View):
         form = UserInformationForm(request.POST)
         if form.is_valid():
             user = request.user
-            UserInformation(user )
+            cleaned_date = form.cleaned_data
+            cleaned_date['user'] = user
+            user_info = UserInformation(**cleaned_date)
+            user_info.save()
+        return redirect('user_page_view')
 # Create your views here.

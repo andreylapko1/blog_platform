@@ -362,3 +362,110 @@ a:hover {
         font-size: 1.6em;
     }
 }
+
+
+
+Отлично! Давайте добавим CSS для стилизации этого блока "Обо мне". Я сосредоточусь на создании современного, чистого и легко читаемого внешнего вида.
+
+Предполагается, что этот CSS будет находиться в вашем статическом файле CSS (например, my_app/static/my_app/css/style.css), который вы подключили в шаблоне с помощью {% load static %} и <link rel="stylesheet" href="{% static 'my_app/css/style.css' %}">.
+CSS
+
+/* Общие стили для тела страницы, если их нет */
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Более современный шрифт */
+    line-height: 1.6;
+    color: #333;
+    background-color: #f0f2f5; /* Легкий серый фон */
+    margin: 0;
+    padding: 20px; /* Отступ от краев страницы */
+}
+
+/* Стили для основного контейнера информации о профиле */
+.profile-bio {
+    background-color: #ffffff; /* Белый фон для блока */
+    border: 1px solid #e0e0e0; /* Легкая серая граница */
+    border-radius: 12px; /* Более скругленные углы */
+    padding: 30px; /* Увеличим внутренние отступы */
+    margin: 30px auto; /* Центрируем блок и добавим отступы сверху/снизу */
+    max-width: 700px; /* Ограничим ширину для лучшей читаемости */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Мягкая тень для глубины */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Плавные переходы */
+}
+
+.profile-bio:hover {
+    transform: translateY(-3px); /* Немного приподнимаем при наведении */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* Усиливаем тень */
+}
+
+/* Заголовок "About Me" */
+.profile-bio h3 {
+    font-size: 1.8em; /* Немного крупнее */
+    color: #2c3e50; /* Темный заголовок */
+    margin-bottom: 20px; /* Отступ снизу */
+    padding-bottom: 10px; /* Отступ для линии */
+    border-bottom: 2px solid #3498db; /* Яркая синяя линия под заголовком */
+    text-align: center; /* Центрируем заголовок */
+}
+
+/* Параграф с текстом "О себе" */
+.profile-bio p {
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 25px; /* Отступ после основного текста */
+}
+
+/* Сообщение, если информация отсутствует */
+.profile-bio .no-bio-message {
+    font-style: italic;
+    color: #888;
+    text-align: center;
+    padding: 15px 0;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+/* Заголовок "Contact & Details" */
+.profile-bio h4 {
+    font-size: 1.4em;
+    color: #2c3e50;
+    margin-top: 30px; /* Отступ сверху */
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee; /* Более тонкая линия */
+    padding-bottom: 8px;
+}
+
+/* Стили для списка дополнительной информации */
+.profile-bio ul {
+    list-style: none; /* Убираем стандартные маркеры списка */
+    padding: 0;
+    margin: 0;
+}
+
+.profile-bio ul li {
+    margin-bottom: 12px; /* Отступ между элементами списка */
+    font-size: 1.05em;
+    color: #444;
+    display: flex; /* Используем flexbox для выравнивания */
+    align-items: baseline; /* Выравнивание по базовой линии текста */
+}
+
+/* Жирный текст (названия полей) */
+.profile-bio ul li strong {
+    color: #2c3e50; /* Более темный цвет для названий */
+    min-width: 120px; /* Минимальная ширина для выравнивания названий */
+    margin-right: 10px; /* Отступ между названием и значением */
+}
+
+/* Стили для ссылок в списке (Instagram, Website) */
+.profile-bio ul li a {
+    color: #3498db; /* Яркий синий цвет для ссылок */
+    text-decoration: none; /* Убираем подчеркивание по умолчанию */
+    transition: color 0.2s ease-in-out; /* Плавный переход цвета */
+}
+
+.profile-bio ul li a:hover {
+    color: #2980b9; /* Темнее при наведении */
+    text-decoration: underline; /* Подчеркивание при наведении */
+}

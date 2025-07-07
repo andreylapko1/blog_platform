@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from blog_platform import settings
+
 
 class Post(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False)
@@ -47,11 +49,60 @@ class Profile(models.Model):
 
 
 class UserInformation(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE, )
-    first_name = models.CharField(max_length=150, null=True, blank=True)
-    last_name = models.CharField(max_length=150, null=True, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True,)
-    about_user = models.TextField(null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=150, null=True, blank=True, verbose_name="Имя")
+    last_name = models.CharField(max_length=150, null=True, blank=True, verbose_name="Фамилия")
+    date_of_birth = models.DateField(null=True, blank=True, verbose_name="Дата рождения")
+    about_user = models.TextField(null=True, blank=True, verbose_name="О себе")
+    phone = models.CharField(max_length=20, null=True, blank=True, verbose_name="Телефон")
+    inst = models.CharField(max_length=255, null=True, blank=True, verbose_name="Ссылка на Instagram")
+    hobbies = models.TextField(null=True, blank=True, verbose_name="Хобби")
+    web_site = models.URLField(max_length=255, null=True, blank=True, verbose_name="Веб-сайт")
+    geo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Местоположение")
+
+    PROFESSION_CHOICES = [
+        ('IT_DEV', 'Разработчик ПО'),
+        ('IT_QA', 'Инженер по тестированию (QA)'),
+        ('IT_PM', 'Менеджер проектов (IT)'),
+        ('IT_DS', 'Специалист по данным (Data Scientist)'),
+        ('IT_UXUI', 'UX/UI Дизайнер'),
+        ('IT_ADM', 'Системный администратор'),
+        ('EDU_TCHR', 'Учитель/Преподаватель'),
+        ('EDU_LEC', 'Лектор ВУЗа'),
+        ('MED_DOC', 'Врач'),
+        ('MED_NUR', 'Медсестра/Медбрат'),
+        ('ENG_CIV', 'Инженер-строитель'),
+        ('ENG_MECH', 'Инженер-механик'),
+        ('ENG_ELEC', 'Инженер-электрик'),
+        ('FIN_ACC', 'Бухгалтер'),
+        ('FIN_ANL', 'Финансовый аналитик'),
+        ('MKT_MNG', 'Маркетолог'),
+        ('SAL_MNG', 'Менеджер по продажам'),
+        ('ART_DES', 'Дизайнер (графический/промышленный)'),
+        ('ART_PHO', 'Фотограф'),
+        ('JUR_LAW', 'Юрист/Адвокат'),
+        ('SCI_RES', 'Научный сотрудник'),
+        ('SVC_CUS', 'Специалист по обслуживанию клиентов'),
+        ('CON_AGR', 'Консультант по агрономии'),
+        ('TRA_DRV', 'Водитель/Курьер'),
+        ('TRA_PIL', 'Пилот'),
+        ('ADM_SEC', 'Секретарь/Ассистент'),
+        ('OTH_GEN', 'Другое'),
+    ]
+    profession = models.CharField(
+        max_length=10,
+        choices=PROFESSION_CHOICES,
+        null=True,
+        blank=True,
+        verbose_name="Профессия"
+    )
+
+    class Meta:
+        verbose_name = "Дополнительная информация пользователя"
+        verbose_name_plural = "Дополнительная информация пользователей"
+
+    def __str__(self):
+        return f"Профиль {self.user.username}"
 
 
 
