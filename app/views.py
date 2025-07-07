@@ -1,6 +1,4 @@
 import json
-from http.client import HTTPResponse
-
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
@@ -159,16 +157,43 @@ class UserDetailView(View):
 
 class UserDetailInformationView(View):
     def get(self, request):
-        form = UserInformationForm()
+        try:
+            user_info = request.user.userinformation
+        except UserInformation.DoesNotExist:
+            user_info = UserInformation.objects.create(user=request.user)
+        initial_data = {
+            'first_name': user_info.first_name,
+            'last_name': user_info.last_name,
+            'date_of_birth': user_info.date_of_birth,
+            'about_user': user_info.about_user,
+            'phone': user_info.phone,
+            'inst': user_info.inst,
+            'hobbies': user_info.hobbies,
+            'web_site': user_info.web_site,
+            'geo': user_info.geo,
+            'profession': user_info.profession,
+        }
+        form = UserInformationForm(initial=initial_data)
         return render(request, 'app/user_detail_info.html', {'form': form})
 
     def post(self, request):
+        try:
+            user_info = request.user.userinformation
+        except UserInformation.DoesNotExist:
+            user_info = UserInformation.objects.create(user=request.user)
         form = UserInformationForm(request.POST)
         if form.is_valid():
-            user = request.user
-            cleaned_date = form.cleaned_data
-            cleaned_date['user'] = user
-            user_info = UserInformation(**cleaned_date)
+            cleaned_data = form.cleaned_data
+            user_info.first_name = cleaned_data.get('first_name')
+            user_info.last_name = cleaned_data.get('last_name')
+            user_info.date_of_birth = cleaned_data.get('date_of_birth')
+            user_info.about_user = cleaned_data.get('about_user')
+            user_info.phone = cleaned_data.get('phone')
+            user_info.inst = cleaned_data.get('inst')
+            user_info.hobbies = cleaned_data.get('hobbies')
+            user_info.web_site = cleaned_data.get('web_site')
+            user_info.geo = cleaned_data.get('geo')
+            user_info.profession = cleaned_data.get('profession')
             user_info.save()
         return redirect('user_page_view')
 # Create your views here.
