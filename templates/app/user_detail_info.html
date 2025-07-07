@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Обновить профиль - Community Blog{% endblock %}
+
+{% block content %}
+<div class="user-profile-container">
+    <link rel="stylesheet" href="{% static 'css/app/user_detail.css' %}">
+    <div class="profile-edit-section">
+        <div class="profile-card">
+            <h2>Обновить личную информацию</h2>
+            <form method="post" enctype="multipart/form-data" class="profile-edit-form">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="form-errors">
+                        <ul>
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+
+                {{ form.as_p }}
+<button type="submit" class="btn-primary">Сохранить изменения</button>
+</form>
+</div>
+</div>
+{% endblock %}

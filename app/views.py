@@ -1,12 +1,12 @@
-from django.contrib import messages
-from django.http import HttpResponse
+import json
+from django.http import JsonResponse
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
-
+from .models import Comment
 from blog_platform import settings
 from .models import Post, Profile
-from .forms import UserUpdateProfileForm, PostCreateForm
+from .forms import UserUpdateProfileForm, PostCreateForm, CommentCreateForm, UserInformationForm
 from django.db import transaction
 import os
 
@@ -21,15 +21,17 @@ class BaseHomeView(View):
 
 class UserPageView(View):
     def get(self, request):
-        return render(request, 'app/user_page.html')
+        form = UserInformationForm()
+        return render(request, 'app/user_page.html', {'form': form})
 
+# cookie
 
 class PostCreateView(View):
     template_name = 'app/post_create.html'
 
     def get(self, request):
         if str(request.user) == 'AnonymousUser':
-            return render(request, 'app/home.html')
+            return redirect('home_view')
         form = PostCreateForm()
         return render(request, self.template_name, {'form': form})
 
@@ -54,10 +56,58 @@ class PostCreateView(View):
 class PostDetailView(View):
     def get(self, request, post_id):
         post = Post.objects.get(pk=post_id)
+        form = CommentCreateForm()
+        comments = Comment.objects.filter(post=post)
+        comments_data = list(comments.values('id', 'author__username', 'text', 'created_at'))
+        comments_json = json.dumps(comments_data, default=str)
         context = {
             'post': post,
+            'comments_json': comments_json,
+            'user': request.user,
+            'form': form,
+            'comments': comments
         }
         return render(request, 'app/post_detail.html', context)
+
+    def post(self, request, post_id):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            try:
+                data = json.loads(request.body)
+            except json.JSONDecodeError:
+                return JsonResponse({'success': False, 'message': 'Неверный формат JSON в запросе.'}, status=400)
+            form = CommentCreateForm(data)
+            if form.is_valid():
+                post = get_object_or_404(Post, pk=post_id)
+                author = request.user
+                if not author.is_authenticated:
+                    return JsonResponse({'success': False, 'message': 'Пользователь не авторизован.'}, status=401)
+
+                comment_text = form.cleaned_data.get('text')
+                comment = Comment(text=comment_text, post=post, author=author)
+                comment.save()
+                return JsonResponse({
+                    'success': True,
+                    'comment': {
+                        'id': comment.pk,
+                        'author': comment.author.username,
+                        'text': comment.text,
+                         'created_at': comment.created_at.strftime("%d.%m.%Y %H:%M")
+
+                    }
+                })
+            else:
+                return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+        else:
+            form = CommentCreateForm(request.POST)
+            if form.is_valid():
+                post = Post.objects.get(pk=post_id)
+                author = request.user
+                comment_text = form.cleaned_data.get('text')
+                comment = Comment(text=comment_text, post=post, author=author)
+                comment.save()
+                return redirect('post_detail_view', post_id)
+            else:
+                return redirect('post_detail_view', post_id)
 
 
 class UserDetailView(View):
@@ -101,9 +151,18 @@ class UserDetailView(View):
                             os.remove(old_image_path)
                     profile.profile_image = new_image
                 profile.save()
-            messages.success(request, 'Ваш профиль успешно обновлен!')
         return redirect('user_page_view')
 
 
 
+class UserDetailInformationView(View):
+    def get(self, request):
+        form = UserInformationForm()
+        return render(request, 'app/user_detail_info.html', {'form': form})
+
+    def post(self, request):
+        form = UserInformationForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            UserInformation(user )
 # Create your views here.

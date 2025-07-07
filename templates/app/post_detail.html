@@ -29,5 +29,214 @@
             <a href="{% url 'home_view' %}" class="back-to-posts">&larr; Вернуться к постам</a>
         </div>
     </article>
+
+    {# Элемент, в который будет монтироваться React-компонент #}
+    <div id="comments-root">
+        {# Здесь React отрендерит комментарии #}
+    </div>
 </div>
+
+{# 1. Загрузка библиотек React и Babel #}
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+{# 2. Безопасная передача JSON-данных из Django в JavaScript #}
+{# Убедитесь, что comments_json в вашем Django View правильно сформирован через json.dumps #}
+<script id="initial-comments-data" type="application/json">
+    {{ comments_json|safe }}
+</script>
+
+{# 3. Ваш React-код на JSX, который будет транспайлироваться Babel'ем #}
+<script type="text/babel">
+    console.log("----- НАЧАЛО REACT СКРИПТА -----");
+
+    // Проверяем, загрузился ли React
+    if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+        console.error("ОШИБКА: React или ReactDOM не загружены. Проверьте ссылки CDN.");
+    } else {
+        console.log("React и ReactDOM успешно загружены.");
+    }
+
+    const { useState, useEffect } = React;
+
+    function CommentSection({ initialComments, postId, isAuthenticated, csrfToken, loginUrl }) {
+        const [comments, setComments] = useState(initialComments);
+        const [newCommentText, setNewCommentText] = useState('');
+        const [isLoading, setIsLoading] = useState(false);
+        const [error, setError] = useState(null);
+
+        const errorTextStyle = {
+            color: 'red',
+            marginBottom: '15px'
+        };
+
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+            if (!newCommentText.trim()) {
+                setError('Комментарий не может быть пустым.');
+                return;
+            }
+
+            setIsLoading(true);
+            setError(null);
+
+            try {
+                const response = await fetch(`${postId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify({ text: newCommentText }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.errors ? Object.values(errorData.errors).flat().join(', ') : 'Ошибка при добавлении комментария.');
+                }
+
+                const data = await response.json();
+                if (data.success) {
+                    // Добавляем новый комментарий в начало списка
+                    setComments((prevComments) => [data.comment, ...prevComments]);
+                    setNewCommentText('');
+                } else {
+                    throw new Error(data.message || 'Неизвестная ошибка при добавлении комментария.');
+                }
+            } catch (err) {
+                console.error("Ошибка при отправке комментария:", err); // Логируем ошибку отправки
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        // JSX, который рендерится компонентом CommentSection
+        return (
+            <div className="comments-section">
+                <h2>Комментарии</h2>
+                {comments.length > 0 ? (
+                    comments.map((comment) => (
+                        <div key={comment.id} className="comment-item">
+                            <div className="comment-meta">
+                                <strong>{comment.author}</strong>
+                                <span className="comment-date">{comment.created_at}</span>
+                            </div>
+                            <div className="comment-content">
+                                <p>{comment.text}</p>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>Пока нет комментариев. Будьте первым!</p>
+                )}
+
+                <h3>Оставить комментарий</h3>
+                {isAuthenticated ? (
+                    <form onSubmit={handleSubmit} className="comment-form">
+                        {error && <p style={errorTextStyle}>{error}</p>}
+                        <label htmlFor="comment-text">Ваш комментарий:</label>
+                        <textarea
+                            id="comment-text"
+                            value={newCommentText}
+                            onChange={(e) => setNewCommentText(e.target.value)}
+                            placeholder="Напишите ваш комментарий здесь..."
+                            disabled={isLoading}
+                        ></textarea>
+                        <button type="submit" className="btn-primary" disabled={isLoading}>
+                            {isLoading ? 'Отправка...' : 'Отправить комментарий'}
+                        </button>
+                    </form>
+                ) : (
+                    <p>Пожалуйста, <a href={loginUrl}>войдите</a>, чтобы оставить комментарий.</p>
+                )}
+            </div>
+        );
+    }
+
+    // --- Логика монтирования React-компонента ---
+
+    // 1. Пытаемся получить элемент с данными комментариев
+    const initialCommentsDataElement = document.getElementById('initial-comments-data');
+    console.log("ШАГ 1: Элемент initial-comments-data:", initialCommentsDataElement); // Должен быть не null, а HTML-элемент
+
+    let initialCommentsData = []; // Инициализируем пустым массивом по умолчанию
+
+    if (initialCommentsDataElement) {
+        // 2. Получаем сырой текст JSON. Используем innerHTML.trim() для максимальной очистки.
+        const rawCommentsText = initialCommentsDataElement.innerHTML.trim();
+        console.log("ШАГ 2: Сырой текст из initial-comments-data (innerHTML.trim()):", rawCommentsText);
+        console.log("ШАГ 2: Длина сырого текста:", rawCommentsText.length);
+        console.log("ШАГ 2: Первый символ сырого текста:", rawCommentsText.charAt(0));
+        console.log("ШАГ 2: Последний символ сырого текста:", rawCommentsText.charAt(rawCommentsText.length - 1));
+
+        // 3. Пытаемся распарсить JSON
+        try {
+            initialCommentsData = JSON.parse(rawCommentsText);
+            console.log("ШАГ 3: initialCommentsData после JSON.parse:", initialCommentsData);
+            console.log("ШАГ 3: Является ли initialCommentsData массивом?", Array.isArray(initialCommentsData));
+            console.log("ШАГ 3: Длина initialCommentsData (если массив):", initialCommentsData.length);
+        } catch (e) {
+            console.error("ОШИБКА ПАРСИНГА JSON: JSON.parse failed. Возможно, невалидный JSON.", e);
+            console.error("Проблемная строка, вызвавшая ошибку:", rawCommentsText);
+            initialCommentsData = []; // Устанавливаем пустой массив в случае ошибки парсинга
+        }
+    } else {
+        console.error("ШАГ 1 ОШИБКА: Элемент с ID 'initial-comments-data' не найден. Не могу получить данные.");
+    }
+
+    // 4. Получаем остальные параметры из Django
+    const postId = {{ post.id }};
+    const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+    const csrfToken = "{{ csrf_token }}";
+    const loginUrl = "{% url 'account_login' %}";
+
+    console.log("ШАГ 4: postId:", postId);
+    console.log("ШАГ 4: isAuthenticated:", isAuthenticated);
+    console.log("ШАГ 4: csrfToken (первые 5 символов):", csrfToken.substring(0, 5) + '...');
+    console.log("ШАГ 4: loginUrl:", loginUrl);
+
+
+    // 5. Преобразуем начальные комментарии для React
+    const formattedComments = Array.isArray(initialCommentsData) ? initialCommentsData.map(comment => ({
+        id: comment.id,
+        author: comment.author__username,
+        text: comment.text,
+        created_at: new Date(comment.created_at).toLocaleString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).replace(',', '')
+    })) : []; // Если initialCommentsData не массив, используем пустой массив
+
+    console.log("ШАГ 5: Отформатированные комментарии для React:", formattedComments);
+    console.log("ШАГ 5: Длина отформатированных комментариев:", formattedComments.length);
+
+
+    // 6. Монтируем React-компонент в DOM
+    const commentsRootElement = document.getElementById('comments-root');
+    console.log("ШАГ 6: Элемент comments-root перед рендером:", commentsRootElement); // Должен быть не null, а HTML-элемент
+
+    if (commentsRootElement) {
+        ReactDOM.render(
+            <CommentSection
+                initialComments={formattedComments}
+                postId={postId}
+                isAuthenticated={isAuthenticated}
+                csrfToken={csrfToken}
+                loginUrl={loginUrl}
+            />,
+            commentsRootElement
+        );
+        console.log("ШАГ 6: ReactDOM.render вызван успешно.");
+    } else {
+        console.error("ШАГ 6 ОШИБКА: Элемент с ID 'comments-root' не найден. React не может быть смонтирован.");
+    }
+
+    console.log("----- КОНЕЦ REACT СКРИПТА -----");
+</script>
 {% endblock %}

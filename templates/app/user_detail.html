@@ -52,7 +52,7 @@
 
                <div class="form-field-group">
     {{ form.profile_image.label_tag }}
-    {{ form.profile_image }} {# Это рендерит <input type="file"> #}
+    {{ form.profile_image }}
     {% if form.profile_image.errors %}
         <ul class="errorlist">
             {% for error in form.profile_image.errors %}
@@ -62,7 +62,7 @@
     {% endif %}
     <p class="current-profile-pic">Текущая картинка: <img src="{{ profile_image }}" alt="Текущая картинка профиля" width="50"></p>
 </div>
-
+                <a href="{% url 'user_detail-info' %}"> Дополнительная информация</a>
 <button type="submit" class="btn-primary">Сохранить изменения</button>
 </form>
 </div>

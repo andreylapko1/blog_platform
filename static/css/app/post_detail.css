@@ -1,6 +1,152 @@
+:root {
+    --primary-color: #6c5ce7;
+    --secondary-color: #0984e3;
+    --text-color: #2d3436;
+    --light-text-color: #636e72;
+    --background-color: #f0f2f5;
+    --card-background: #ffffff;
+    --border-color: #dfe6e9;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
 
-/* <link rel="stylesheet" href="{% static 'css/app/post_detail.css' %}"> */
+.comments-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 35px 40px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: 0 8px 25px var(--shadow-light);
+    font-family: var(--font-body);
+    color: var(--text-color);
+}
 
+.comments-section h2,
+.comments-section h3 {
+    font-family: var(--font-heading);
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.comment-item {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.comment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comment-meta strong {
+    color: var(--primary-color);
+    font-size: 1.15em;
+    font-weight: 600;
+}
+
+.comment-meta .comment-date {
+    color: var(--light-text-color);
+    font-size: 0.9em;
+}
+
+.comment-content p {
+    line-height: 1.8;
+    margin-bottom: 0;
+    color: var(--text-color);
+}
+
+.comment-form {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.comment-form p {
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.comment-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.comment-form input[type="text"],
+.comment-form textarea {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: var(--font-body);
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.comment-form input[type="text"]:focus,
+.comment-form textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    background-color: var(--card-background);
+}
+
+.comment-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.comment-form .btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    margin: 25px auto 0;
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+}
+
+.comment-form .btn-primary:hover {
+    background-color: #5a4ac7;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(108, 92, 231, 0.4);
+}
+
+.comments-section > p {
+    text-align: center;
+    color: var(--light-text-color);
+    font-style: italic;
+    margin-top: 25px;
+}
+
+.comments-section p a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.comments-section p a:hover {
+    text-decoration: underline;
+}
 
 /* Post Detail Specific Styles */
 .post-detail-container {
@@ -21,35 +167,32 @@
     margin-top: 0;
     margin-bottom: 20px;
     line-height: 1.2;
-    text-align: center; /* Центрируем заголовок */
+    text-align: center;
 }
 
 .post-meta {
     display: flex;
-    justify-content: center; /* Центрируем автора и дату */
+    justify-content: center;
     align-items: center;
-    gap: 25px; /* Расстояние между автором и датой */
+    gap: 25px;
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--border-color);
 }
 
 .post-meta .author-info {
-    /* Переиспользуем стили из post-card, но можем переопределить */
     display: flex;
     align-items: center;
 }
 
 .post-meta .author-avatar {
-    /* Переиспользуем стили из post-card */
     width: 60px;
     height: 60px;
     margin-right: 15px;
-    border: 3px solid var(--primary-color); /* Изменен цвет рамки */
+    border: 3px solid var(--primary-color);
 }
 
 .post-meta .author-name {
-    /* Переиспользуем стили из post-card */
     font-size: 1.2em;
     font-weight: 700;
 }
@@ -106,20 +249,29 @@
 }
 
 .back-to-posts {
+    background-color: var(--primary-color); /* Изменено на фиолетовый */
+    color: white; /* Изменено на белый */
     display: inline-block;
     padding: 10px 20px;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
     border-radius: 5px;
     font-weight: 600;
     transition: background-color 0.3s ease;
 }
 
 .back-to-posts:hover {
-    background-color: #bce8f1;
+    background-color: #5a4ac7; /* Темнее фиолетовый на ховере */
 }
 
-/* Responsive adjustments for post detail */
+#image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 30px auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px var(--shadow-light);
+    object-fit: cover;
+}
+
 @media (max-width: 768px) {
     .post-detail {
         padding: 25px 25px;
@@ -137,6 +289,9 @@
     .post-content {
         font-size: 1em;
     }
+    #image {
+        margin: 20px auto;
+    }
 }
 
 @media (max-width: 480px) {
@@ -146,27 +301,7 @@
     .post-detail {
         padding: 20px;
     }
-}
-#image {
-    max-width: 100%; /* Гарантирует, что изображение не выйдет за пределы контейнера */
-    height: auto;    /* Сохраняет пропорции изображения */
-    display: block;  /* Удаляет лишний отступ снизу, если изображение является строчным элементом */
-    margin: 30px auto; /* Центрирует изображение и добавляет отступы сверху/снизу */
-    border-radius: 10px; /* Скругляет углы, как у других карточек */
-    box-shadow: 0 8px 25px var(--shadow-light); /* Добавляет тень, как у карточек */
-    object-fit: cover; /* Если изображение будет обрезаться, оно заполнит доступное пространство */
-    /* border: 1px solid var(--border-color); Опционально: добавить тонкую рамку */
-}
-
-/* Адаптивность для изображений */
-@media (max-width: 768px) {
     #image {
-        margin: 20px auto; /* Меньше отступов на мобильных */
-    }
-}
-
-@media (max-width: 480px) {
-    #image {
-        border-radius: 8px; /* Чуть меньше скругление на очень маленьких экранах */
+        border-radius: 8px;
     }
 }
