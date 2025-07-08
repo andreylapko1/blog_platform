@@ -27,7 +27,8 @@
                             <img src="{% static 'static/img/google_icon.png' %}" alt="Default Avatar" class="author-avatar">
                             {% endif %}
                             <div class="author-info">
-                                <span class="author-name">{{ post.author.username }}</span>
+<!--                                <span class="author-name">{{ post.author.username }}</span>-->
+                                <a href="{% url 'user_other_view' post.author.pk %}" class="author-name">{{ post.author.username }}</a>
                                 <time datetime="{{ post.created_at|date:'c' }}" class="post-date">{{ post.created_at|date:"d M Y" }}</time>
                             </div>
                         </div>

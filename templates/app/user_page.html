@@ -41,14 +41,11 @@
                    <div class="profile-bio">
     <h3>About Me</h3>
     {% if user.userinformation %}
-        {# Check if the 'about_user' field specifically has content #}
         {% if user.userinformation.about_user %}
             <p>{{ user.userinformation.about_user }}</p>
         {% else %}
             <p class="no-bio-message">User has not added a description yet.</p>
         {% endif %}
-
-        {# --- Additional Information --- #}
         <h4>Contact & Details</h4>
         <ul>
             {% if user.userinformation.phone %}
@@ -64,7 +61,6 @@
                 <li><strong>Location:</strong> {{ user.userinformation.geo }}</li>
             {% endif %}
             {% if user.userinformation.profession %}
-                {# Display the human-readable value for profession #}
                 <li><strong>Profession:</strong> {{ user.userinformation.get_profession_display }}</li>
             {% endif %}
             {% if user.userinformation.hobbies %}
@@ -88,7 +84,7 @@
                             {% for post in user.posts.all %}
                                 <article class="post-card">
                                     <div class="post-header">
-                                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="author-avatar">
+                                        <img src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}" class="author-avatar">
                                         <div class="author-info">
                                             <span class="author-name">{{ user.username }}</span>
                                             <time datetime="{{ post.created_at|date:'c' }}" class="post-date">{{ post.created_at|date:"d M Y" }}</time>
@@ -96,7 +92,7 @@
                                     </div>
                                     <h2 class="post-title"><a href="#">{{ post.title }}</a></h2>
                                     <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
-                                    <a href="#" class="read-more">Read More &rarr;</a>
+                                    <a href="{%  url 'post_detail_view' post.pk %}" class="read-more">Читать далее &rarr;</a>
                                 </article>
                             {% endfor %}
                         </div>

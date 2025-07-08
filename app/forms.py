@@ -14,6 +14,7 @@ class PostCreateForm(forms.Form):
 
 class UserInformationForm(forms.Form):
     PROFESSION_CHOICES = [
+        ('F1', 'Formula 1 pilot'),
         ('IT_DEV', 'Разработчик ПО'),
         ('IT_QA', 'Инженер по тестированию (QA)'),
         ('IT_PM', 'Менеджер проектов (IT)'),

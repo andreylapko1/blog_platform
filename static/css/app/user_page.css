@@ -444,28 +444,25 @@ body {
 }
 
 .profile-bio ul li {
-    margin-bottom: 12px; /* Отступ между элементами списка */
+    margin-bottom: 12px;
     font-size: 1.05em;
     color: #444;
-    display: flex; /* Используем flexbox для выравнивания */
-    align-items: baseline; /* Выравнивание по базовой линии текста */
+    display: flex;
+    align-items: baseline;
 }
 
-/* Жирный текст (названия полей) */
 .profile-bio ul li strong {
-    color: #2c3e50; /* Более темный цвет для названий */
-    min-width: 120px; /* Минимальная ширина для выравнивания названий */
-    margin-right: 10px; /* Отступ между названием и значением */
+    color: #2c3e50;
+    min-width: 120px;
+    margin-right: 10px;
 }
 
-/* Стили для ссылок в списке (Instagram, Website) */
 .profile-bio ul li a {
-    color: #3498db; /* Яркий синий цвет для ссылок */
-    text-decoration: none; /* Убираем подчеркивание по умолчанию */
-    transition: color 0.2s ease-in-out; /* Плавный переход цвета */
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
 }
 
 .profile-bio ul li a:hover {
-    color: #2980b9; /* Темнее при наведении */
-    text-decoration: underline; /* Подчеркивание при наведении */
-}
+    color: #2980b9;
+    text-decoration: underline;

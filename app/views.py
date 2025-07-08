@@ -22,7 +22,7 @@ class BaseHomeView(View):
 class UserPageView(View):
     def get(self, request):
         form = UserInformationForm()
-        return render(request, 'app/user_page.html', {'form': form})
+        return render(request, 'app/user_page.html', )
 
 # cookie
 
@@ -46,7 +46,6 @@ class PostCreateView(View):
                 if 'image' in form.cleaned_data and form.cleaned_data.get('image'):
                     new_post.image = form.cleaned_data.get('image')
                 new_post.save()
-                print(new_post.title)
             return redirect('home_view')
         else:
             return render(request, self.template_name, {'form': form})
@@ -196,4 +195,10 @@ class UserDetailInformationView(View):
             user_info.profession = cleaned_data.get('profession')
             user_info.save()
         return redirect('user_page_view')
+
+class UserOtherView(View):
+    def get(self, request, user_pk):
+        user = User.objects.get(pk=user_pk)
+        return render(request, 'app/user_page.html', {'user': user})
+
 # Create your views here.
