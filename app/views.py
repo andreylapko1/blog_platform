@@ -229,4 +229,35 @@ class PostUpdateView(View):
             return redirect('user_page_view')
 
 
+
+class LikesView(View):
+    def post(self, request):
+        post_id = request.POST.get('post_id')
+        param = request.POST.get('action')
+        if not post_id or not param:
+            return JsonResponse({'status': 'error', 'message': 'Отсутствует ID поста или действие'}, status=400)
+        try:
+            post = get_object_or_404(Post, id=post_id)
+            session_liked_posts = request.session.get('liked_posts', [])
+            with transaction.atomic():
+                if param == 'like':
+                    if post.id not in session_liked_posts:
+                        post.total_likes += 1
+                        session_liked_posts.append(post.id)
+                elif param == 'unlike':
+                    if post.id in session_liked_posts:
+                        if post.total_likes > 0:
+                            post.total_likes -= 1
+                        session_liked_posts.remove(post.id)
+                post.save()
+                request.session['liked_posts'] = session_liked_posts
+                request.session.modified = True
+                return JsonResponse({'status': 'ok', 'total_likes': post.total_likes}, status=200)
+        except Post.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Post does not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': f'{e}'}, status=400)
+
+
+
 # Create your views here.

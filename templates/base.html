@@ -10,6 +10,7 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+{% csrf_token %}
     <div class="site-wrapper">
         <header class="main-header">
             <div class="container">
@@ -41,6 +42,13 @@
             <p>&copy; 2025 Community Blog. All rights reserved.</p>
         </div>
     </footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+
     {% block extra_body %}{% endblock %}
+
 </body>
 </html>

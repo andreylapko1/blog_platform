@@ -1,10 +1,9 @@
-
-{% extends "base.html" %} {# Убедитесь, что здесь указан правильный базовый шаблон #}
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %}Home - Community Blog{% endblock %}
 
-{% block content %} {# <-- ВОТ ЗДЕСЬ БУДУТ ВЫВОДИТЬСЯ ПОСТЫ #}
+{% block content %}
 <div class="homepage-hero">
     <div class="container">
         <h1>{{ welcome_message }}</h1>
@@ -27,18 +26,39 @@
                             <img src="{% static 'static/img/google_icon.png' %}" alt="Default Avatar" class="author-avatar">
                             {% endif %}
                             <div class="author-info">
-<!--                                <span class="author-name">{{ post.author.username }}</span>-->
                                 <a href="{% url 'user_other_view' post.author.pk %}" class="author-name">{{ post.author.username }}</a>
                                 <time datetime="{{ post.created_at|date:'c' }}" class="post-date">{{ post.created_at|date:"d M Y" }}</time>
                             </div>
                         </div>
-                        <h2 class="post-title"><a href="#">{{ post.title }}</a></h2>
+                        <h2 class="post-title"><a href="{% url 'post_detail_view' post.id %}">{{ post.title }}</a></h2>
                         {% if post.image %}
                             <img src="{{ post.image.url }}" alt="{{ post.author.username }}" class="post-image">
                         {% else %}
                         {% endif %}
                         <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
-                        <a href="{% url 'post_detail_view' post.id %}">Читать далее &rarr;</a>
+
+                        {# Новый контейнер для обеих кнопок #}
+                        <div class="post-footer-actions">
+                            {# Кнопка "Читать далее" слева #}
+                            <a href="{% url 'post_detail_view' post.id %}" class="read-more-btn">Читать далее &rarr;</a>
+
+                            {# Блок с лайками справа #}
+                            <div class="post-likes-section">
+                                {% if user.is_authenticated %}
+                                    <button
+                                        type="button"
+                                        class="like-button {% if post.id in request.session.liked_posts %}liked{% endif %}" {# Updated logic here #}
+                                        data-post-id="{{ post.id }}"
+                                        data-action="{% if post.id in request.session.liked_posts %}unlike{% else %}like{% endif %}" {# Updated logic here #}
+                                    >
+                                        ❤️ <span class="total-likes">{{ post.total_likes }}</span>
+                                    </button>
+                                {% else %}
+                                    <span class="total-likes">❤️ {{ post.total_likes }}</span>
+                                    <a href="{% url 'account_login' %}" class="login-to-like-text">Войдите, чтобы лайкнуть</a>
+                                {% endif %}
+                            </div>
+                        </div>
                     </article>
                 {% endfor %}
             </div>
@@ -47,4 +67,59 @@
         {% endif %}
     </div>
 </main>
+{% endblock %}
+
+{# jQuery should be loaded in base.html as per our previous fix #}
+{# Your block extra_js will now contain the specific script for this page #}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // We use event delegation here. This is crucial if posts might be loaded dynamically
+    // or if the click handler wasn't attaching properly before.
+    // 'body' is a safe parent element that always exists. If you have a more specific
+    // container for all your posts that doesn't change (e.g., '.post-grid'), use that instead.
+    $('body').on('click', '.like-button', function() {
+        var button = $(this);
+        var post_id = button.data('post-id');
+        var action = button.data('action');
+        // Retrieve CSRF token from the meta tag or hidden input field
+        var csrftoken = $('[name=csrfmiddlewaretoken]').val();
+
+        // Perform the AJAX request
+        $.ajax({
+            url: '{% url "like_post" %}', // Ensure this URL name is correct in your urls.py
+            type: 'POST',
+            data: {
+                'post_id': post_id,
+                'action': action,
+                'csrfmiddlewaretoken': csrftoken
+            },
+            success: function(response) {
+                // This code runs if the server responds with a 200 OK status
+                if (response.status === 'ok') {
+                    // Update the displayed like count
+                    button.find('.total-likes').text(response.total_likes);
+
+                    // Toggle the 'liked' class and 'data-action' attribute for the next click
+                    if (action === 'like') {
+                        button.addClass('liked');
+                        button.data('action', 'unlike');
+                    } else {
+                        button.removeClass('liked');
+                        button.data('action', 'like');
+                    }
+                } else {
+                    // If the server returns an error status in its JSON (e.g., status: 'error')
+                    alert('Ошибка: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // This code runs if the AJAX request itself fails (e.g., network error, 404, 500)
+                console.error("AJAX Error:", status, error);
+                alert('Произошла ошибка при обработке запроса.');
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
