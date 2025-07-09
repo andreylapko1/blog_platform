@@ -21,7 +21,6 @@ class BaseHomeView(View):
 
 class UserPageView(View):
     def get(self, request):
-        form = UserInformationForm()
         return render(request, 'app/user_page.html', )
 
 # cookie
@@ -200,5 +199,34 @@ class UserOtherView(View):
     def get(self, request, user_pk):
         user = User.objects.get(pk=user_pk)
         return render(request, 'app/user_page.html', {'user': user})
+
+
+class PostUpdateView(View):
+    def get(self, request, post_id):
+        post = Post.objects.get(pk=post_id)
+        initial_data = {
+            'title': post.title,
+            'text': post.content,
+            'image': post.image,
+        }
+        form = PostCreateForm(initial=initial_data)
+        return render(request, 'app/post_update.html', {'form': form, 'post': post})
+
+
+    def post(self, request, post_id):
+        form = PostCreateForm(request.POST, request.FILES)
+        post = Post.objects.get(pk=post_id)
+        if form.is_valid():
+            post.title = form.cleaned_data['title']
+            post.content = form.cleaned_data['text']
+            if not form.cleaned_data['image']:
+                post.image = post.image
+            else:
+                post.image = form.cleaned_data['image']
+            post.save()
+            return redirect('user_page_view')
+        else:
+            return redirect('user_page_view')
+
 
 # Create your views here.

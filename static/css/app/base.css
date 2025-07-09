@@ -242,3 +242,18 @@ a:hover {
         padding: 0 15px;
     }
 }
+
+.post-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    display: block;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.post-image:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+}

@@ -34,8 +34,6 @@
                     <h2 class="form-title">Create New Post</h2>
                     <form method="post" enctype="multipart/form-data" class="post-form">
                         {% csrf_token %}
-
-                        {# Отображение общих сообщений Django (успех/ошибка) #}
                         {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
@@ -44,7 +42,6 @@
                             </ul>
                         {% endif %}
 
-                        {# Общие ошибки формы (не привязанные к полям) #}
                         {% if form.non_field_errors %}
                             <div class="form-errors">
                                 <ul>
@@ -55,7 +52,6 @@
                             </div>
                         {% endif %}
 
-                        {# Поле Title #}
                         <div class="form-group">
                             <label for="{{ form.title.id_for_label }}">Title</label>
                             <input type="text" id="{{ form.title.id_for_label }}" name="{{ form.title.html_name }}" value="{{ form.title.value|default_if_none:'' }}" required>
@@ -68,7 +64,6 @@
                             {% endif %}
                         </div>
 
-                        {# Поле Text (content) #}
                         <div class="form-group">
                             <label for="{{ form.text.id_for_label }}">Text</label>
                             <textarea id="{{ form.text.id_for_label }}" name="{{ form.text.html_name }}" rows="10" required>{{ form.text.value|default_if_none:'' }}</textarea>
@@ -81,22 +76,31 @@
                             {% endif %}
                         </div>
 
-                        <div class="form-group file-upload-group">
-                            <label for="{{ form.image.id_for_label }}" class="file-upload-label">
-                                <span class="upload-icon">&#x1F4CE;</span> Upload Image
-                            </label>
-                            <input type="file" id="{{ form.image.id_for_label }}" name="{{ form.image.html_name }}" accept="image/*">
+<div class="form-group file-upload-group">
+    <label for="{{ form.image.id_for_label }}" class="file-upload-label">
+        <span class="upload-icon">&#x1F4CE;</span> Upload Image
+    </label>
+    <input type="file" id="{{ form.image.id_for_label }}" name="{{ form.image.html_name }}" accept="image/*">
 
-                            {% if form.image.errors %}
-                                <ul class="errorlist">
-                                    {% for error in form.image.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
+    <span id="file-name" class="file-name">
+        {% if post.image %} {# Проверяем, есть ли у объекта post связанное изображение #}
+            <p>Current Image:</p>
+            <img src="{{ post.image.url }}" alt="Current Post Image" style="max-width: 200px; height: auto; display: block; margin-top: 10px;">
+            <p><small>{{ post.image.name|cut:"uploads/" }}</small></p> {# Опционально: показать имя файла под изображением #}
 
-                        <button type="submit" class="submit-btn">Publish Post</button>
+        {% endif %}
+    </span>
+
+    {% if form.image.errors %}
+        <ul class="errorlist">
+            {% for error in form.image.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+                        <button type="submit" class="submit-btn">Update Post</button>
                     </form>
                 </section>
             </div>

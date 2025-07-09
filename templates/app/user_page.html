@@ -92,6 +92,9 @@
                                     </div>
                                     <h2 class="post-title"><a href="#">{{ post.title }}</a></h2>
                                     <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
+                                    {% if user.is_authenticated and user == request.user %}
+                                    <a href="{%  url 'post_update_view' post.pk %}" class="read-more">Редактировать &rarr;</a>
+                                    {% endif %}
                                     <a href="{%  url 'post_detail_view' post.pk %}" class="read-more">Читать далее &rarr;</a>
                                 </article>
                             {% endfor %}

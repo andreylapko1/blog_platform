@@ -12,6 +12,9 @@ class PostCreateForm(forms.Form):
     text = forms.CharField(label='Post content')
     image = forms.ImageField(required=False)
 
+
+
+
 class UserInformationForm(forms.Form):
     PROFESSION_CHOICES = [
         ('F1', 'Formula 1 pilot'),

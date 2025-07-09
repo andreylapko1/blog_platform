@@ -15,7 +15,7 @@
                 {% else %}
                 <img src="{% static 'img/default_avatar.png' %}" alt="Default Avatar" class="author-avatar">
                 {% endif %}
-                <span class="author-name">{{ post.author.username }}</span>
+                <a href="{% url 'user_other_view' post.author.pk %}" class="author-name">{{ post.author.username }}</a>
             </div>
             <time datetime="{{ post.created_at|date:'c' }}" class="post-detail-date">{{ post.created_at|date:"d M Y, H:i" }}</time>
         </div>
@@ -30,19 +30,15 @@
         </div>
     </article>
 
-    {# Элемент, в который будет монтироваться React-компонент #}
     <div id="comments-root">
-        {# Здесь React отрендерит комментарии #}
     </div>
 </div>
 
-{# 1. Загрузка библиотек React и Babel #}
+
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-{# 2. Безопасная передача JSON-данных из Django в JavaScript #}
-{# Убедитесь, что comments_json в вашем Django View правильно сформирован через json.dumps #}
 <script id="initial-comments-data" type="application/json">
     {{ comments_json|safe }}
 </script>

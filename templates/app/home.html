@@ -34,7 +34,7 @@
                         </div>
                         <h2 class="post-title"><a href="#">{{ post.title }}</a></h2>
                         {% if post.image %}
-                            <img src="{{ post.image.url }}" alt="{{ post.author.username }}" class="author-avatar">
+                            <img src="{{ post.image.url }}" alt="{{ post.author.username }}" class="post-image">
                         {% else %}
                         {% endif %}
                         <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
