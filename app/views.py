@@ -16,6 +16,7 @@ class BaseHomeView(ListView):
     model = Post
     template_name = 'app/home.html'
     context_object_name = 'posts'
+
     # def get(self, request):
     #     posts = Post.objects.all()
     #     context = {
@@ -27,8 +28,6 @@ class BaseHomeView(ListView):
 class UserPageView(View):
     def get(self, request):
         return render(request, 'app/user_page.html', )
-
-# cookie
 
 class PostCreateView(View):
     template_name = 'app/post_create.html'

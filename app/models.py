@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from datetime import date
 
 class Post(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False)
@@ -58,6 +58,15 @@ class UserInformation(models.Model):
     hobbies = models.TextField(null=True, blank=True, verbose_name="Хобби")
     web_site = models.URLField(max_length=255, null=True, blank=True, verbose_name="Веб-сайт")
     geo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Местоположение")
+
+
+    @property
+    def years(self):
+        today = date.today()
+        user_age = date.today().year - self.date_of_birth.year
+        if (today.month < self.date_of_birth.month) or (today.month == self.date_of_birth.month and today.day < self.date_of_birth.day ):
+            user_age -= 1
+        return user_age
 
     PROFESSION_CHOICES = [
         ('F1', 'Formula 1 pilot'),

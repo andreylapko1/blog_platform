@@ -67,7 +67,10 @@
                 <li><strong>Hobbies:</strong> {{ user.userinformation.hobbies }}</li>
             {% endif %}
             {% if user.userinformation.date_of_birth %}
-                <li><strong>Date of Birth:</strong> {{ user.userinformation.date_of_birth|date:"F d, Y" }}</li> {# Format the date #}
+                <li><strong>Date of Birth:</strong> {{ user.userinformation.date_of_birth|date:"F d, Y" }}</li>
+            {% endif %}
+            {% if user.userinformation.years %}
+                <li><strong>Years:</strong> {{ user.userinformation.years}}</li>
             {% endif %}
         </ul>
 
