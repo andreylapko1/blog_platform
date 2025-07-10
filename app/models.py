@@ -49,15 +49,15 @@ class Profile(models.Model):
 
 class UserInformation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=150, null=True, blank=True, verbose_name="Имя")
-    last_name = models.CharField(max_length=150, null=True, blank=True, verbose_name="Фамилия")
-    date_of_birth = models.DateField(null=True, blank=True, verbose_name="Дата рождения")
-    about_user = models.TextField(null=True, blank=True, verbose_name="О себе")
-    phone = models.CharField(max_length=20, null=True, blank=True, verbose_name="Телефон")
-    inst = models.CharField(max_length=255, null=True, blank=True, verbose_name="Ссылка на Instagram")
-    hobbies = models.TextField(null=True, blank=True, verbose_name="Хобби")
-    web_site = models.URLField(max_length=255, null=True, blank=True, verbose_name="Веб-сайт")
-    geo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Местоположение")
+    first_name = models.CharField(max_length=150, null=True, blank=True, verbose_name="name")
+    last_name = models.CharField(max_length=150, null=True, blank=True, verbose_name="surname")
+    date_of_birth = models.DateField(null=True, blank=True, verbose_name="date of birth")
+    about_user = models.TextField(null=True, blank=True, verbose_name="about user")
+    phone = models.CharField(max_length=20, null=True, blank=True, verbose_name="phone")
+    inst = models.CharField(max_length=255, null=True, blank=True, verbose_name="Instagram link")
+    hobbies = models.TextField(null=True, blank=True, verbose_name="hobbies")
+    web_site = models.URLField(max_length=255, null=True, blank=True, verbose_name="web-site")
+    geo = models.CharField(max_length=100, null=True, blank=True, verbose_name="geoposition")
 
 
     @property
@@ -103,15 +103,15 @@ class UserInformation(models.Model):
         choices=PROFESSION_CHOICES,
         null=True,
         blank=True,
-        verbose_name="Профессия"
+        verbose_name="profession"
     )
 
     class Meta:
-        verbose_name = "Дополнительная информация пользователя"
-        verbose_name_plural = "Дополнительная информация пользователей"
+        verbose_name = "User information"
+        verbose_name_plural = "Users information"
 
     def __str__(self):
-        return f"Профиль {self.user.username}"
+        return f"Profile {self.user.username}"
 
 
 

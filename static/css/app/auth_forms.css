@@ -1,10 +1,8 @@
-/* static/css/app/auth_forms.css */
 
-/* Убедитесь, что base.css загружен первым, чтобы получить переменные и общие стили */
 
 .content-main {
     padding: 50px 0;
-    flex: 1; /* Обеспечивает работу "липкого" футера */
+    flex: 1;
 }
 
 .auth-card {
@@ -12,9 +10,9 @@
     border-radius: 10px;
     box-shadow: 0 8px 25px var(--shadow-light);
     padding: 40px;
-    max-width: 500px; /* Ограничиваем ширину для лучшей читаемости */
-    margin: 0 auto; /* Центрируем карточку формы */
-    text-align: center; /* Центрируем содержимое внутри карточки */
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .form-title {
@@ -35,8 +33,7 @@
     font-weight: 600;
 }
 
-/* Стили для полей формы (если используете ручной рендеринг или crispy-forms) */
-.auth-form .form-group { /* Если используете ручной рендеринг */
+.auth-form .form-group {
     margin-bottom: 20px;
     text-align: left;
 }
@@ -52,7 +49,7 @@
 .auth-form input[type="text"],
 .auth-form input[type="email"],
 .auth-form input[type="password"] {
-    width: calc(100% - 24px); /* Учитываем padding */
+    width: calc(100% - 24px);
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -71,7 +68,6 @@
     outline: none;
 }
 
-/* Специфичные стили для crispy-forms (если используете) */
 .auth-form .form-control {
     width: calc(100% - 24px);
     padding: 12px;
@@ -99,7 +95,7 @@
     list-style: none;
     padding: 0;
     margin: -10px 0 15px 0;
-    color: #E74C3C; /* Красный для ошибок */
+    color: #E74C3C;
     font-size: 0.9em;
     text-align: left;
 }
@@ -112,7 +108,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: -10px; /* Корректировка отступа */
+    margin-top: -10px;
     margin-bottom: 25px;
     font-size: 0.95em;
 }
@@ -179,7 +175,7 @@
     justify-content: center;
     width: 100%;
     padding: 12px 20px;
-    background-color: #DB4437; /* Google red */
+    background-color: #DB4437;
     color: white;
     border-radius: 8px;
     font-size: 1.1em;
@@ -192,7 +188,7 @@
 .google-login-btn:hover {
     background-color: #C1352A;
     transform: translateY(-2px);
-    color: white; /* Убедитесь, что цвет текста остается белым при наведении */
+    color: white;
 }
 
 .google-icon {
@@ -201,7 +197,6 @@
     margin-right: 10px;
 }
 
-/* Адаптивные настройки */
 @media (max-width: 768px) {
     .auth-card {
         padding: 30px;

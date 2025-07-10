@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load socialaccount %}
-{% load crispy_forms_tags %} {# Если вы используете django-crispy-forms для красивых форм #}
+{% load crispy_forms_tags %}
 
 {% block title %}Sign Up{% endblock %}
 
@@ -22,7 +22,7 @@
                 {% for error in form.non_field_errors %}{{ error }}{% endfor %}
             </div>
         {% endif %}
-        {{ form|crispy }} {# Или ручной рендеринг #}
+        {{ form|crispy }}
         <button type="submit" class="submit-btn">Зарегистрироваться</button>
     </form>
 

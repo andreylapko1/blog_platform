@@ -148,7 +148,6 @@
     text-decoration: underline;
 }
 
-/* Post Detail Specific Styles */
 .post-detail-container {
     padding: 40px 0;
 }
@@ -249,8 +248,8 @@
 }
 
 .back-to-posts {
-    background-color: var(--primary-color); /* Изменено на фиолетовый */
-    color: white; /* Изменено на белый */
+    background-color: var(--primary-color);
+    color: white;
     display: inline-block;
     padding: 10px 20px;
     border-radius: 5px;
@@ -259,7 +258,7 @@
 }
 
 .back-to-posts:hover {
-    background-color: #5a4ac7; /* Темнее фиолетовый на ховере */
+    background-color: #5a4ac7;
 }
 
 #image {

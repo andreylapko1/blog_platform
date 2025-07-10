@@ -18,13 +18,6 @@ class BaseHomeView(ListView):
     template_name = 'app/home.html'
     context_object_name = 'posts'
 
-    # def get(self, request):
-    #     posts = Post.objects.all()
-    #     context = {
-    #         'posts': posts,
-    #     }
-    #     return render(request, 'app/home.html', context)
-
 
 class UserPageView(View):
     def get(self, request):

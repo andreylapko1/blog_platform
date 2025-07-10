@@ -1,12 +1,12 @@
-{% extends "base.html" %} {# Наследуемся от вашего общего базового шаблона #}
+{% extends "base.html" %}
 {% load static %}
-{% load socialaccount %} {# Для входа через соцсети, например Google #}
-{% load crispy_forms_tags %} {# Если вы используете django-crispy-forms для красивых форм #}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
 
 {% block title %}Sign In{% endblock %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/app/auth_forms.css' %}"> {# Специальные стили для форм аутентификации #}
+    <link rel="stylesheet" href="{% static 'css/app/auth_forms.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -22,8 +22,6 @@
                 {% for error in form.non_field_errors %}{{ error }}{% endfor %}
             </div>
         {% endif %}
-        {# Используйте crispy_forms для автоматического красивого рендеринга формы #}
-        {# Если не используете crispy_forms, придется рендерить поля вручную, как в post_create.html #}
         {{ form|crispy }} 
 
         {% if redirect_field_value %}
@@ -46,7 +44,6 @@
             <img src="{% static 'img/google_icon.png' %}" alt="Google Icon" class="google-icon">
             Войти с Google
         </a>
-        {# Добавьте другие провайдеры соцсетей здесь #}
     </div>
 </section>
 {% endblock %}
