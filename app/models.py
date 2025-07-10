@@ -70,6 +70,7 @@ class UserInformation(models.Model):
 
     PROFESSION_CHOICES = [
         ('F1', 'Formula 1 pilot'),
+        ('LOG', 'Логист'),
         ('IT_DEV', 'Разработчик ПО'),
         ('IT_QA', 'Инженер по тестированию (QA)'),
         ('IT_PM', 'Менеджер проектов (IT)'),
