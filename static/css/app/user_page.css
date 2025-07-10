@@ -1,4 +1,4 @@
-/* Переменные для цветов и шрифтов */
+
 :root {
     --primary-color: #7B68EE;
     --secondary-color: #ADD8E6;
@@ -212,7 +212,6 @@ a:hover {
     margin: 0;
 }
 
-/* User Profile Specific Styles */
 .user-profile-main {
     padding: 50px 0;
     flex: 1;
@@ -365,12 +364,7 @@ a:hover {
 
 
 
-Отлично! Давайте добавим CSS для стилизации этого блока "Обо мне". Я сосредоточусь на создании современного, чистого и легко читаемого внешнего вида.
 
-Предполагается, что этот CSS будет находиться в вашем статическом файле CSS (например, my_app/static/my_app/css/style.css), который вы подключили в шаблоне с помощью {% load static %} и <link rel="stylesheet" href="{% static 'my_app/css/style.css' %}">.
-CSS
-
-/* Общие стили для тела страницы, если их нет */
 body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Более современный шрифт */
     line-height: 1.6;
@@ -436,9 +430,8 @@ body {
     padding-bottom: 8px;
 }
 
-/* Стили для списка дополнительной информации */
 .profile-bio ul {
-    list-style: none; /* Убираем стандартные маркеры списка */
+    list-style: none;
     padding: 0;
     margin: 0;
 }
@@ -466,3 +459,78 @@ body {
 .profile-bio ul li a:hover {
     color: #2980b9;
     text-decoration: underline;
+   }
+
+.messages {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.messages li {
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.messages .info {
+    background-color: #e0f7fa;
+    color: #00796b;
+    border-color: #4db6ac;
+}
+
+
+
+.messages  .success{
+    background-color: #e8f5e9;
+    color: #388e3c;
+    border-color: #66bb6a;
+    align: center;
+}
+
+.messages .warning {
+    background-color: #fffde7;
+    color: #fbc02d;
+    border-color: #ffeb3b;
+}
+
+.messages .error {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border-color: #ef5350;
+}
+
+.messages .debug {
+    background-color: #f5f5f5;
+    color: #424242;
+    border-color: #bdbdbd;
+}
+
+@media (max-width: 768px) {
+    .messages {
+        margin: 15px 5px;
+    }
+
+    .messages li {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}

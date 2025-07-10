@@ -8,7 +8,9 @@
     <div class="container">
         <h1>{{ welcome_message }}</h1>
         <p>Делитесь своими мыслями, читайте интересные статьи и присоединяйтесь к нашему сообществу.</p>
-        <a href="{% url 'post_create_view' %}" class="btn btn-primary">Создать новый пост</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'post_create_view' %}" class="btn btn-primary">Создать новый пост</a>
+        {% endif %}
     </div>
 </div>
 
@@ -37,9 +39,7 @@
                         {% endif %}
                         <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
 
-                        {# Новый контейнер для обеих кнопок #}
                         <div class="post-footer-actions">
-                            {# Кнопка "Читать далее" слева #}
                             <a href="{% url 'post_detail_view' post.id %}" class="read-more-btn">Читать далее &rarr;</a>
 
                             {# Блок с лайками справа #}

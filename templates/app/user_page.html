@@ -15,14 +15,25 @@
                 <h1>Community Blog</h1>
                 <nav>
                     <a href="{% url 'home_view' %}">Home</a>
+                    {% if user.is_authenticated %}
                     <a href="{% url 'post_create_view' %}">Create Post</a>
                     <a href="{% url 'user_page_view' %}">Profile</a>
                     <a href="{% url 'account_logout' %}">Logout</a>
+                    {% endif %}
                 </nav>
             </div>
         </header>
 
         <main class="user-profile-main">
+                {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
             <div class="container">
                 <section class="profile-card">
                 {% if user.profile.profile_image %}
@@ -95,10 +106,17 @@
                                     </div>
                                     <h2 class="post-title"><a href="#">{{ post.title }}</a></h2>
                                     <p class="post-excerpt">{{ post.content|truncatechars:150 }}</p>
+                                    <a href="{%  url 'post_detail_view' post.pk %}" class="read-more">Читать далее &rarr;</a>
                                     {% if user.is_authenticated and user == request.user %}
                                     <a href="{%  url 'post_update_view' post.pk %}" class="read-more">Редактировать &rarr;</a>
+                                    <form action="{% url 'post_delete_view' post.pk %}" method="post" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="read-more" onclick="return confirm('Вы уверены, что хотите удалить этот пост?');">
+                                                Удалить
+                                            </button>
+                                        </form>
                                     {% endif %}
-                                    <a href="{%  url 'post_detail_view' post.pk %}" class="read-more">Читать далее &rarr;</a>
+
                                 </article>
                             {% endfor %}
                         </div>
@@ -109,6 +127,7 @@
             </div>
         </main>
     </div>
+
 
     <footer class="main-footer">
         <div class="container">

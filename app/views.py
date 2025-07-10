@@ -1,4 +1,5 @@
 import json
+from django.contrib import messages
 from django.views.generic import ListView
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -228,10 +229,21 @@ class PostUpdateView(View):
             else:
                 post.image = form.cleaned_data['image']
             post.save()
+            messages.success(request, f'Post \"{post.title}\" was updates successfully!')
             return redirect('user_page_view')
         else:
             return redirect('user_page_view')
 
+class PostDeleteView(View):
+    def post(self, request, post_id):
+        try:
+            post = get_object_or_404(Post, id=post_id)
+            post_name = post.title
+            post.delete()
+            messages.success(request, f'Post \"{post_name}\"     was deleted successfully!')
+            return redirect('user_page_view')
+        except Post.DoesNotExist:
+            return redirect('user_page_view')
 
 
 class LikesView(View):
@@ -261,6 +273,9 @@ class LikesView(View):
             return JsonResponse({'status': 'error', 'message': 'Post does not found'}, status=404)
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': f'{e}'}, status=400)
+
+
+
 
 
 
