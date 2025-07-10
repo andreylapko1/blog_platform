@@ -336,3 +336,48 @@ a:hover {
     text-decoration: none;
     margin-left: 10px;
 }
+.pagination {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.pagination .step-links a,
+.pagination .step-links span {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.pagination .step-links a:hover {
+    border-color: #0056b3;
+}
+
+.pagination .current {
+    border-color: #007bff;
+    font-weight: bold;
+    cursor: default;
+}
+
+.pagination .disabled {
+    border-color: #dee2e6;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    .pagination .step-links a,
+    .pagination .step-links span {
+        padding: 8px 12px;
+        margin: 0 3px;
+        font-size: 14px;
+    }
+}

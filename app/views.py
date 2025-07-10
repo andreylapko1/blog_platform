@@ -1,4 +1,5 @@
 import json
+from django.views.generic import ListView
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,13 +11,17 @@ from .forms import UserUpdateProfileForm, PostCreateForm, CommentCreateForm, Use
 from django.db import transaction
 import os
 
-class BaseHomeView(View):
-    def get(self, request):
-        posts = Post.objects.all()
-        context = {
-            'posts': posts,
-        }
-        return render(request, 'app/home.html', context)
+class BaseHomeView(ListView):
+    paginate_by = 9
+    model = Post
+    template_name = 'app/home.html'
+    context_object_name = 'posts'
+    # def get(self, request):
+    #     posts = Post.objects.all()
+    #     context = {
+    #         'posts': posts,
+    #     }
+    #     return render(request, 'app/home.html', context)
 
 
 class UserPageView(View):

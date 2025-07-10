@@ -66,18 +66,47 @@
             <p class="no-posts-message">Пока нет постов. Будьте первым!</p>
         {% endif %}
     </div>
+    <div class="pagination">
+        <span class="step-links">
+            {# Ссылка на первую страницу #}
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="{% if not page_obj.has_previous %}disabled{% endif %}">&laquo; Первая</a>
+            {% else %}
+                <span class="disabled">&laquo; Первая</span>
+            {% endif %}
+
+            {# Ссылка на предыдущую страницу #}
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% else %}
+                <span class="disabled">Предыдущая</span>
+            {% endif %}
+
+            {# Текущая страница и общее количество страниц #}
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {# Ссылка на следующую страницу #}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            {% else %}
+                <span class="disabled">Следующая</span>
+            {% endif %}
+
+            {# Ссылка на последнюю страницу #}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+            {% else %}
+                <span class="disabled">Последняя &raquo;</span>
+            {% endif %}
+        </span>
+    </div>
 </main>
 {% endblock %}
-
-{# jQuery should be loaded in base.html as per our previous fix #}
-{# Your block extra_js will now contain the specific script for this page #}
 {% block extra_js %}
 <script>
 $(document).ready(function() {
-    // We use event delegation here. This is crucial if posts might be loaded dynamically
-    // or if the click handler wasn't attaching properly before.
-    // 'body' is a safe parent element that always exists. If you have a more specific
-    // container for all your posts that doesn't change (e.g., '.post-grid'), use that instead.
     $('body').on('click', '.like-button', function() {
         var button = $(this);
         var post_id = button.data('post-id');
@@ -87,7 +116,7 @@ $(document).ready(function() {
 
         // Perform the AJAX request
         $.ajax({
-            url: '{% url "like_post" %}', // Ensure this URL name is correct in your urls.py
+            url: '{% url "like_post" %}',
             type: 'POST',
             data: {
                 'post_id': post_id,
