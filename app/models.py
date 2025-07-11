@@ -67,7 +67,7 @@ class UserInformation(models.Model):
         if (today.month < self.date_of_birth.month) or (today.month == self.date_of_birth.month and today.day < self.date_of_birth.day ):
             user_age -= 1
         return user_age
-
+git 
     PROFESSION_CHOICES = [
         ('F1', 'Formula 1 pilot'),
         ('LOG', 'Логист'),
